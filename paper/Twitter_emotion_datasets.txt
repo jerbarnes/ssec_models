@@ -1,0 +1,182 @@
+Sanders-Twitter Sentiment Corpus
+==================================================================
+Niek J. Sanders
+njs@sananalytics.com
+October 24, 2011
+
+It consists of 5512 hand-classified tweets. These tweets were classified with respect to one of 4
+different topics (Apple, Google, Microsoft, Twitter). The annotation was done by a single person.
+
+The Sentiment labels used were ‘positive’, ‘neutral’, ‘negative’, or ‘irrelevant’.
+
+
+
+Roberts et al., 2012
+====================================================================
+
+They annotate 7000 tweets manually for 7 emotions :ANGER, DISGUST, FEAR, JOY, LOVE, SADNESS, and SURPRISE.
+
+They chose 14 topics which they believe should elicit emotional tweets and collect hashtags to help identify 
+tweets that are on these topics. After several iterations, the annotators reach κ = 0.67 IAA on 500 tweets.
+Of the 7000 tweets, 5000 are annotated by only one annotator.
+
+
+http://www.hlt.utdallas.edu/~kirk/publications/robertsLREC2012_2.pdf
+
+@InProceedings{ROBERTS12.201,
+  author = {Kirk Roberts and Michael A. Roach and Joseph Johnson and Josh Guthrie and Sanda M. Harabagiu},
+  title = {EmpaTweet: Annotating and Detecting Emotions on Twitter},
+  booktitle = {Proceedings of the Eight International Conference on Language Resources and Evaluation (LREC'12)},
+  year = {2012},
+  month = {may},
+  date = {23-25},
+  address = {Istanbul, Turkey},
+  editor = {Nicoletta Calzolari (Conference Chair) and Khalid Choukri and Thierry Declerck and Mehmet Uğur Doğan and Bente Maegaard and Joseph Mariani and Asuncion Moreno and Jan Odijk and Stelios Piperidis},
+  publisher = {European Language Resources Association (ELRA)},
+  isbn = {978-2-9517408-7-7},
+  language = {english}
+ } 
+
+Stanford Twitter Sentiment Corpus
+===============================================================================
+Go, A., Bhayani, R., Huang, L.: Twitter sentiment classification using distant
+supervision. CS224N Project Report, Stanford (2009)
+
+Large corpus of tweets annotated automatically using distant hashtag supervision with emoji.
+
+Not reliable and often has discrepencies between tweet sentiment and entity sentiment.
+
+
+Health Care Reform Dataset
+===============================================================================
+
+@InProceedings{speriosu-EtAl:2011:UNSUP,
+  author    = {Speriosu, Michael  and  Sudan, Nikita  and  Upadhyay, Sid  and  Baldridge, Jason},
+  title     = {Twitter Polarity Classification with Label Propagation over Lexical Links and the Follower Graph},
+  booktitle = {Proceedings of the First workshop on Unsupervised Learning in NLP},
+  month     = {July},
+  year      = {2011},
+  address   = {Edinburgh, Scotland},
+  publisher = {Association for Computational Linguistics},
+  pages     = {53--63},
+  url       = {http://www.aclweb.org/anthology/W11-2207}
+}
+
+Speriosu, M., Sudan, N., Upadhyay, S., Baldridge, J.: Twitter polarity classification
+with label propagation over lexical links and the follower graph. In: Proceedings
+of the EMNLP First workshop on Unsupervised Learning in NLP. Edinburgh,
+Scotland (2011)
+
+They collect 2,516 tweets and annotate them manually for positive, negative and neutral sentiment.
+Again, they do not differentiate between polarity of the tweet or polarity of the entity.
+
+
+Obama-McCain Debate Dataset
+===================================================================================
+
+@inproceedings{Shamma:2009:TDU:1631144.1631148,
+ author = {Shamma, David A. and Kennedy, Lyndon and Churchill, Elizabeth F.},
+ title = {Tweet the Debates: Understanding Community Annotation of Uncollected Sources},
+ booktitle = {Proceedings of the First SIGMM Workshop on Social Media},
+ series = {WSM '09},
+ year = {2009},
+ isbn = {978-1-60558-759-2},
+ location = {Beijing, China},
+ pages = {3--10},
+ numpages = {8},
+ url = {http://doi.acm.org/10.1145/1631144.1631148},
+ doi = {10.1145/1631144.1631148},
+ acmid = {1631148},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {TV, centrality, community, debates, multimedia, social, twitter},
+} 
+
+3238 tweets crawled during the presidential elections of 2008. Each tweet was annotated
+for 'pos', 'neg', 'mixed' or 'other' through mechanical turk by at least 3 annotators.
+
+Sentiment Strength Dataset
+======================================================================================
+4242 tweets manually labeled with their positive and negative strengths (neg: -1 (not very negative) : -5 (very negative))
+									(pos:  1 (not very positive) :  5 (very positive))
+
+
+@article{Thelwall2012,
+ author = {Thelwall, Mike and Buckley, Kevan and Paltoglou, Georgios},
+ title = {Sentiment Strength Detection for the Social Web},
+ journal = {J. Am. Soc. Inf. Sci. Technol.},
+ issue_date = {January 2012},
+ volume = {63},
+ number = {1},
+ month = jan,
+ year = {2012},
+ issn = {1532-2882},
+ pages = {163--173},
+ numpages = {11},
+ url = {http://dx.doi.org/10.1002/asi.21662},
+ doi = {10.1002/asi.21662},
+ acmid = {2336261},
+ publisher = {John Wiley \& Sons, Inc.},
+ address = {New York, NY, USA},
+} 
+
+Dialogue Earth Twitter Corpora
+=====================================================================================
+
+Three datasets (WA, WB --about weather-- and GASP about gas prices).
+
+4490, 8850 and 12,770 tweets respectively.
+positive, negative, neutral, not related, cant tell
+hand labeled by several annotators
+
+Semeval 2013
+====================================================================================
+
+This dataset was constructed for the Twitter sentiment analysis task (Task 2) 
+in the Semantic Evaluation of Systems challenge (SemEval-2013). The original
+SemEval dataset consists of 20K tweets split into training, development and test
+sets. All the tweets were manually annotated by 5 Amazon Mechanical Turk
+workers with negative, positive and neutral labels. The turkers were also asked
+to annotate expressions within the tweets as subjective or objective.
+
+STS-GOLD
+=====================================================================================
+
+Hassan Saif, Miriam Fernandez, Yulan He and Harith Alani. 2013. Evaluation Datasets for Twitter Sentiment Analysis: A survey and a new dataset, the STS-Gold. In Proceedings of the First International Workshop on Emotion and Sentiment in Social and Expressive Media: approaches and perspectives from AI (ESSEM 2013): pp. 9-21.
+
+They repurposed the Stanford Tweet Sentiment Corpus. As their goal is to create a resource
+that avoids this ambiguous nature of the polarity of the general tweet and entities, they
+identify 147 entities within the 3000 tweets.
+
+Annotators annotated both the tweet and any entity in the tweet with one of the 5 class
+labels: (Negative, Positive, Neutral, Mixed and Other). 
+
+They measured the inter-annotation agreement using the Krippendorff’s alpha
+metric, obtaining an agreement of αt = 0.765 for the tweet-level annotation
+task. For the entity-level annotation task, if you measured sentiment of entity for
+each individual tweet, they only obtained αe = 0.416 which is relatively low for the
+annotated data to be used. However, if you measured the aggregated sentiment
+for each entity, they got a very high inter-annotator agreement of αe = 0.964.
+
+They disregarded any tweets where there was disagreement for a total of 2205 annotated tweets.
+
+Emotional Tweets
+=====================================================================================
+@inproceedings{Mohammad:2012:ET:2387636.2387676,
+ author = {Mohammad, Saif M.},
+ title = {\#Emotional Tweets},
+ booktitle = {Proceedings of the First Joint Conference on Lexical and Computational Semantics - Volume 1: Proceedings of the Main Conference and the Shared Task, and Volume 2: Proceedings of the Sixth International Workshop on Semantic Evaluation},
+ series = {SemEval '12},
+ year = {2012},
+ location = {Montr\éal, Canada},
+ pages = {246--255},
+ numpages = {10},
+ url = {http://dl.acm.org/citation.cfm?id=2387636.2387676},
+ acmid = {2387676},
+ publisher = {Association for Computational Linguistics},
+ address = {Stroudsburg, PA, USA},
+} 
+
+Uses hashtags as a way of distantly creating a twitter emotion corpus.
+No hand annotation.
+

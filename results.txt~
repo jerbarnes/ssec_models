@@ -1,0 +1,42 @@
+wikipedia-sg-100
+
+DAN----------------------------------
+anger: 0.193
+anticipation: 0.082
+disgust: 0.009
+fear: 0.017
+joy: 0.173
+sadness: 0.000
+surprise: 0.000
+trust: 0.017
+
+acc: 0.872 prec:0.482 rec:0.035 f1:0.061
+
+LSTM ---------------------------------
+
+anger: 0.360
+anticipation: 0.254
+disgust: 0.063
+fear: 0.117
+joy: 0.333
+sadness: 0.132
+surprise: 0.056
+trust: 0.227
+
+acc: 0.803 prec:0.244 rec:0.198 f1:0.193
+
+BiLSTM --------------------------------
+
+anger: 0.366
+anticipation: 0.259
+disgust: 0.165
+fear: 0.115
+joy: 0.340
+sadness: 0.143
+surprise: 0.090
+trust: 0.306
+
+acc: 0.845 prec:0.333 rec:0.179 f1:0.223
+
+
+CNN -----------------------------------
