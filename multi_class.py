@@ -1,5 +1,6 @@
 from keras.models import Sequential, Model
 from keras.layers import LSTM, Dropout, Dense, Embedding, Bidirectional, Convolution1D, MaxPooling1D, Flatten, Merge, Input
+from keras.regularizers import l2
 from keras.preprocessing.sequence import pad_sequences
 import sys
 import tabulate
@@ -153,7 +154,7 @@ def micro_f1(y, pred):
     micro_precision = true_pos.sum() / (true_pos.sum() + false_pos.sum())
     micro_recall = true_pos.sum() / (true_pos.sum() + false_neg.sum())
     micro_f1 = 2 * ((micro_precision * micro_recall) / (micro_precision + micro_recall))
-    return micro_f1    
+    return micro_precision, micro_recall, micro_f1    
 
 def get_idx_from_sent(sent, word_idx_map, max_l=50, k=50, filter_h=5):
     """
@@ -198,19 +199,6 @@ def get_W(wordvecs, dim=300):
         i += 1
     return W, word_idx_map
 
-def create_deep(input_dim, num_hidden_layers=3, dim=300,
-                output_dim=2, dropout=.5):
-    model = Sequential()
-    model.add(Dense(input_dim=input_dim, output_dim=dim))
-    model.add(Dropout(dropout))
-    for i in range(num_hidden_layers):
-        model.add(Dense(dim))
-        model.add(Dropout(dropout))
-    model.add(Dense(output_dim, activation='sigmoid'))
-    model.compile('adam', 'binary_crossentropy',
-                  metrics=['accuracy'])
-    return model
-
 
 def create_LSTM(wordvecs, dim=300, output_dim=8, dropout=.5,
                 weights=None, train=True):
@@ -218,6 +206,7 @@ def create_LSTM(wordvecs, dim=300, output_dim=8, dropout=.5,
     model.add(Embedding(weights.shape[0], weights.shape[1], weights=[weights], trainable=train))
     model.add(Dropout(dropout))
     model.add(LSTM(dim))
+    #model.add(LSTM(dim, W_regularizer=l2()))
     model.add(Dropout(dropout))
     model.add(Dense(50, activation='relu'))
     model.add(Dense(output_dim, activation='sigmoid'))
@@ -230,6 +219,7 @@ def create_BiLSTM(wordvecs, dim=300, output_dim=8, dropout=.5,
     model.add(Embedding(weights.shape[0], weights.shape[1], weights=[weights], trainable=train))
     model.add(Dropout(dropout))
     model.add(Bidirectional(LSTM(dim)))
+    #model.add(Bidirectional(LSTM(dim, regularizer=l2())))
     model.add(Dropout(dropout))
     model.add(Dense(50, activation='relu'))
     model.add(Dense(output_dim, activation='sigmoid'))
@@ -242,7 +232,6 @@ def create_cnn(W, max_length, dim=300,
     # Convolutional model
     filter_sizes=(2,3,4)
     num_filters = 3
-    dropout_prob=(.25,.5)
     hidden_dim=100
     graph_in = Input(shape=(max_length, len(W[0])))
     convs = []
@@ -306,8 +295,7 @@ def write_vecs(matrix, w2idx, outfile):
                 pass
 
 
-def test_embeddings(file, file_type):
-    names = ['DAN', 'LSTM', 'Bi-LSTM']
+def test_embeddings(file, threshold, file_type):
     emotions = ["anger", "anticipation", "disgust",
             "fear", "joy", "sadness",
             "surprise", "trust"]
@@ -315,7 +303,7 @@ def test_embeddings(file, file_type):
     
     
     # Import dataset where each test example is the words in the tweet
-    dataset = Fine_Grained_Emotion_Dataset('data', None, rep=words)
+    dataset = Fine_Grained_Emotion_Dataset('data', None, rep=words, threshold=threshold)
     
 
     print('Basic statistics')
@@ -362,7 +350,7 @@ def test_embeddings(file, file_type):
     W, word_idx_map = get_W(wordvecs, dim=dim)
 
     # TODO: change this so I don't have to import vectors I don't need
-    vecs = WordVecs('../comparison_of_sentiment_methods/embeddings/sswe-u-50.txt')
+    vecs = WordVecs(file)
     vecs._matrix = W
     vecs._w2idx = word_idx_map
     vecs.vocab_length, vecs.vector_size = W.shape
@@ -379,7 +367,7 @@ def test_embeddings(file, file_type):
 
 #### Test Models ####
 
-    names = ['DAN', 'LSTM', 'BiLSTM', 'CNN']
+    names = ['LSTM', 'BiLSTM', 'CNN']
 
 
     # Keep all mean and standard deviations of each emotion over datasets here
@@ -395,13 +383,8 @@ def test_embeddings(file, file_type):
 
         print('Getting best parameters')
 
-        dev_params_file = 'dev_params/best_params.txt'
-        if name == 'DAN':
-            best_dim, best_dropout, best_epoch, best_f1 = get_dev_params(name, dev_params_file,
-                                                           ave_dataset._Xtrain, ave_dataset._ytrain,
-                                                           ave_dataset._Xdev, ave_dataset._ydev, wordvecs, W)
-        else:
-            best_dim, best_dropout, best_epoch, best_f1 = get_dev_params(name, dev_params_file,
+        dev_params_file = 'dev_params/'+str(W.shape[1])+'_params.txt'
+        best_dim, best_dropout, best_epoch, best_f1 = get_dev_params(name, dev_params_file,
                                                     Xtrain, dataset._ytrain, Xdev, dataset._ydev, wordvecs, W)
         
         print('Testing {0}'.format(name))
@@ -415,32 +398,20 @@ def test_embeddings(file, file_type):
             print('Run: {0}'.format(i + 1))
             
             # create and train a new classifier for each iteration
-            if name == 'DAN':
-                model = create_deep(input_dim=vecs.vector_size,
-                                    num_hidden_layers=3,
-                                    dim=best_dim,
-                                    output_dim=dataset._ytrain.shape[1],
-                                    dropout=best_dropout)
-                h = model.fit(ave_dataset._Xtrain, ave_dataset._ytrain, validation_data=[ave_dataset._Xdev, ave_dataset._ydev],
-                         nb_epoch=best_epoch, verbose=0)
-                pred = model.predict(ave_dataset._Xtest)
-
-            # DAN uses different representations than the other models
-            else:
-                if name == 'LSTM':
-                    model = create_LSTM(wordvecs, dim=best_dim, output_dim=8, dropout=best_dropout,
+            if name == 'LSTM':
+                model = create_LSTM(wordvecs, dim=best_dim, output_dim=8, dropout=best_dropout,
                           weights=W, train=True)
-                elif name == 'BiLSTM':
-                    model = create_BiLSTM(wordvecs, dim=best_dim, output_dim=8, dropout=best_dropout,
+            elif name == 'BiLSTM':
+                model = create_BiLSTM(wordvecs, dim=best_dim, output_dim=8, dropout=best_dropout,
                             weights=W, train=True)
-                elif name == 'CNN':
-                    model = create_cnn(W, Xtrain.shape[1])
+            elif name == 'CNN':
+                model = create_cnn(W, Xtrain.shape[1])
 
-                h = model.fit(Xtrain, dataset._ytrain,
+            h = model.fit(Xtrain, dataset._ytrain,
                               validation_data=[Xdev, dataset._ydev],
                               nb_epoch=best_epoch,
                               verbose=0)
-                pred = model.predict(Xtest)
+            pred = model.predict(Xtest)
                     
             pred = np.array([cutoff(x) for x in pred])
             y = dataset._ytest
@@ -462,13 +433,12 @@ def test_embeddings(file, file_type):
             #    a, p, r, f = result
             #    print('{0}: {1:.3f}'.format(emo, f))
             ave_acc, ave_prec, ave_rec, mac_f1 = emo_results.mean(axis=0)
-            mic_f1 = micro_f1(dataset._ytest, pred)
-            model_average_results.append((ave_acc,ave_prec, ave_rec, mac_f1, mic_f1))
+            mic_prec, mic_rec, mic_f1 = micro_f1(dataset._ytest, pred)
+            model_average_results.append((ave_acc, mic_prec, mic_rec, mic_f1))
             
-            print('acc: {0:.3f} prec:{1:.3f} rec:{2:.3f} macro-f1:{3:.3f} micro-f1:{4:.3f}'.format(ave_acc,
-                                                             ave_prec,
-                                                             ave_rec,
-                                                             mac_f1,
+            print('acc: {0:.3f} micro-prec:{1:.3f} micro-rec:{2:.3f} micro-f1:{3:.3f}'.format(ave_acc,
+                                                             mic_prec,
+                                                             mic_rec,
                                                              mic_f1))
             print()
     
@@ -488,13 +458,13 @@ def test_embeddings(file, file_type):
 
     return names, all_emo_results, all_emo_std_devs, averaged_results, averaged_std_devs, dim
 
-def print_results(file, out_file, file_type):
+def print_results(file, out_file, threshold, file_type):
 
-    names, all_emo_results, all_emo_std_devs, averaged_results, averaged_std_devs, dim = test_embeddings(file, file_type)
+    names, all_emo_results, all_emo_std_devs, averaged_results, averaged_std_devs, dim = test_embeddings(file, threshold, file_type)
 
     emotions = ["anger", "anticipation", "disgust",
             "fear", "joy", "sadness",
-            "surprise", "trust", "averaged"]
+            "surprise", "trust", "micro-averaged"]
     
     
     if out_file:
@@ -502,23 +472,19 @@ def print_results(file, out_file, file_type):
             for name, results, std_devs, ave_results, ave_std_dev in zip(names, all_emo_results, all_emo_std_devs, averaged_results, averaged_std_devs):
                 rr = [[u'{0:.3f} \u00B1{1:.3f}'.format(r, s) for r, s in zip(result, std_dev)] for result, std_dev in zip(results, std_devs)]
                 av = [u'{0:.3f} \u00B1{1:.3f}'.format(r, s) for r, s in zip(ave_results, ave_std_dev)]
-                for r in rr:
-                    r += ['-']
                 rr += [av]
                 table = [[emo] + r for emo, r in zip(emotions, rr)]
                 f.write('+++{0}+++\n'.format(name))
-                f.write(tabulate.tabulate(table, headers=['acc', 'prec', 'rec', 'macro-f1', 'micro-f1']))
+                f.write(tabulate.tabulate(table, headers=['acc', 'prec', 'rec', 'f1']))
                 f.write('\n')
     else:
         for name, results, std_devs, ave_results, ave_std_dev in zip(names, all_emo_results, all_emo_std_devs, averaged_results, averaged_std_devs):
             rr = [[u'{0:.3f} \u00B1{1:.3f}'.format(r, s) for r, s in zip(result, std_dev)] for result, std_dev in zip(results, std_devs)]
             av = [u'{0:.3f} \u00B1{1:.3f}'.format(r, s) for r, s in zip(ave_results, ave_std_dev)]
-            for r in rr:
-                r += ['-']
             rr += [av]
             table = [[emo] + r for emo, r in zip(emotions, rr)]
             print(name)
-            print(tabulate.tabulate(table, headers=['acc', 'prec', 'rec', 'macro-f1', 'micro-f1']))
+            print(tabulate.tabulate(table, headers=['acc', 'prec', 'rec', 'f1']))
             print()
 
 
@@ -528,6 +494,7 @@ def main(args):
     parser.add_argument('-bi', default=False, type=bool)
     parser.add_argument('-emb', help='location of embeddings', 
         default='../comparison_of_sentiment_methods/embeddings/amazon-sg-50-window10-sample1e-4-negative5.txt')
+    parser.add_argument('-threshold', default='0.0', type=str)
     parser.add_argument('-file_type', help='glove style embeddings or word2vec style: default is w2v',
         default='word2vec')
     parser.add_argument('-output', help='output file for results', default='./results.txt')
@@ -536,6 +503,7 @@ def main(args):
 
     args = vars(parser.parse_args())
     embedding_file = args['emb']
+    threshold = args['threshold']
     file_type = args['file_type']
     output = args['output']
     printout = args['printout']
@@ -543,9 +511,9 @@ def main(args):
     print('testing on %s' % embedding_file)
 
     if printout:
-        print_results(embedding_file, None, file_type)
+        print_results(embedding_file, None, threshold, file_type)
     else:
-        print_results(embedding_file, output, file_type)
+        print_results(embedding_file, output, threshold, file_type)
 
 if __name__ == '__main__':
 
