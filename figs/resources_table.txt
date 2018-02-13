@@ -1,0 +1,24 @@
+\begin{table*}
+  \centering
+  \renewcommand*{\arraystretch}{0.95}
+  \setlength\tabcolsep{1.1mm}
+  \begin{tabular}{lcccccc}
+  \toprule
+    Name & Granularity & Annotation  & Num. Train & Topic & Source \\
+    \hline
+   STS-train & tweet & 1 & 1.6 M & General & \cite{Go2009}\\
+   STS-test & tweet & 1 & 498 & General & \cite{Go2009}\\
+   SemEval 2013 &tweet & 2 & 15,196 & General & \cite{Nakov2013}\\
+   Healthcare Reform & tweet & 2 & 2,516 & Politics & \cite{Speriosu2011}\\ 
+   Obama-McCain Debate & tweet & 3& 3,238 & Politics & \cite{Shamma2009}\\
+   Dialogue Earth-WA & tweet & 4 &4,490 & Water & \url{www.dialogueearth.org}\\
+   Dialogue Earth-WB & tweet & 4 &8,850 & Water & \url{www.dialogueearth.org}\\
+   Dialogue Earth-GASP& tweet & 4 &12,770 & Gas prices & \url{www.dialogueearth.org}\\
+   STS-GOLD  & entity/tweet & 5 & 2,205 &  General & \cite{Hassan2013}\\
+   SemEval 2016 & topics/tweets & 6 & 4,870 & 5 topics & \cite{Mohammad2016} \\
+   Sentiment Strength & tweet & 7 & 4,242 & General & \cite{Thelwall2012} \\
+   \bottomrule
+  \end{tabular}
+  \caption{Available resources for sentiment and emotion analysis on twitter. Annotation refers to the following annotation schemes: [1] positive-negative, [2] positive-negative-neutral, [3] positive-negative-mixed-other, [4] positive-negative-netural-unrelated-can't tell, [5] positive-negative-neutral-mixed-other, [6] for-against, [7] positive and negative strength (range).} 
+  \label{tab:resources}
+\end{table*}

@@ -1,0 +1,72 @@
+\begin{table*}[t]
+  \centering
+  \renewcommand*{\arraystretch}{0.9}
+  \setlength\tabcolsep{1.8mm}
+  \begin{tabular}{l|lrrrrrrrrrrrrrrr}
+    \toprule
+    \multicolumn{2}{c}{} & \multicolumn{15}{c}{Results for Treshold} \\
+    \cmidrule(l){3-17}
+    \multicolumn{2}{c}{} & \multicolumn{3}{c}{0.0} & \multicolumn{3}{c}{0.33} & \multicolumn{3}{c}{0.5} & \multicolumn{3}{c}{0.66} & \multicolumn{3}{c}{0.99} \\
+    \cmidrule(r){2-2}\cmidrule(rl){3-5}\cmidrule(rl){6-8}\cmidrule(rl){9-11}\cmidrule(rl){12-14}\cmidrule(rl){15-17}
+    \multicolumn{1}{c}{}    & Emotion & P & R & \F & P & R & \F & P & R & \F & P & R & \F & P & R & \F \\
+                   
+    \cmidrule(r){1-2}\cmidrule(rl){3-5}\cmidrule(rl){6-8}\cmidrule(rl){9-11}\cmidrule(rl){12-14}\cmidrule(rl){15-17}
+    \multirow{9}{*}{\rt{DAN}}
+    & Anger& 63.5 (2.4) & 85.9 (4.3) & 72.9 (0.4) \\
+    & Anticipation& 56.3 (5.1) & 68.4 (13.0) & 60.6 (2.6) \\
+    & Disgust& 44.3 (3.5) & 67.1 (12.6) & 52.4 (1.8) \\
+    & Fear& 33.9 (4.4) & 44.8 (13.0) & 36.9 (2.9) \\
+    & Joy& 49.2 (6.2) & 60.0 (12.4) & 52.7 (1.8) \\
+    & Sadness& 36.6 (2.3) & 82.8 (8.1) & 50.4 (0.8) \\
+    & Surprise& 35.8 (3.8) & 9.8 (7.4) & 13.8 (8.8) \\
+    & Trust& 58.8 (4.6) & 41.6 (7.1) & 48.0 (3.4) \\
+    \cmidrule(r){2-2}\cmidrule(rl){3-5}\cmidrule(rl){6-8}\cmidrule(rl){9-11}\cmidrule(rl){12-14}\cmidrule(rl){15-17}
+    & Micro-Avg.& 48.2 (1.4) & 64.9 (2.8) & 55.3 (1.0) \\
+
+    \cmidrule(r){1-2}\cmidrule(rl){3-5}\cmidrule(rl){6-8}\cmidrule(rl){9-11}\cmidrule(rl){12-14}\cmidrule(rl){15-17}
+    \multirow{9}{*}{\rt{LSTM}}
+    & Anger& 65.6 (1.7) & 69.9 (6.9) & 67.4 (2.5) \\
+    & Anticipation& 59.7 (2.4) & 28.1 (7.9) & 37.3 (6.9) \\
+    & Disgust& 58.5 (7.2) & 13.3 (2.6) & 21.4 (3.2) \\
+    & Fear& 28.5 (2.3) & 19.9 (4.2) & 23.3 (3.2) \\
+    & Joy& 57.1 (16.7) & 24.4 (13.1) & 29.2 (6.3) \\
+    & Sadness& 37.2 (1.7) & 49.9 (7.1) & 42.4 (2.9) \\
+    & Surprise& 14.7 (1.7) & 20.2 (6.9) & 16.6 (3.1) \\
+    & Trust& 73.1 (4.3) & 24.2 (6.4) & 35.7 (6.0) \\
+    \cmidrule(r){2-2}\cmidrule(rl){3-5}\cmidrule(rl){6-8}\cmidrule(rl){9-11}\cmidrule(rl){12-14}\cmidrule(rl){15-17}
+    & Micro-Avg.& 48.5 (2.7) & 36.1 (2.7) & 41.2 (1.1) \\
+
+    \cmidrule(r){1-2}\cmidrule(rl){3-5}\cmidrule(rl){6-8}\cmidrule(rl){9-11}\cmidrule(rl){12-14}\cmidrule(rl){15-17}
+    \multirow{9}{*}{\rt{BiLSTM}}
+    & Anger& 64.4 (1.7) & 71.2 (3.8) & 67.6 (1.5) \\
+    & Anticipation& 60.2 (2.3) & 43.1 (5.6) & 49.9 (3.4) \\
+    & Disgust& 48.0 (1.5) & 37.9 (4.4) & 42.2 (2.6) \\
+    & Fear& 33.7 (3.2) & 21.7 (5.9) & 25.6 (4.6) \\
+    & Joy& 55.9 (2.8) & 40.9 (6.3) & 46.8 (3.6) \\
+    & Sadness& 42.1 (1.4) & 47.2 (6.2) & 44.2 (2.1) \\
+    & Surprise& 31.4 (6.8) & 20.5 (7.5) & 23.2 (3.2) \\
+    & Trust& 65.9 (3.4) & 31.2 (2.7) & 42.2 (2.3) \\
+    \cmidrule(r){2-2}\cmidrule(rl){3-5}\cmidrule(rl){6-8}\cmidrule(rl){9-11}\cmidrule(rl){12-14}\cmidrule(rl){15-17}
+    & Micro-Avg.& 53.3 (1.8) & 44.5 (1.8) & 48.5 (0.6) \\
+
+    \cmidrule(r){1-2}\cmidrule(rl){3-5}\cmidrule(rl){6-8}\cmidrule(rl){9-11}\cmidrule(rl){12-14}\cmidrule(rl){15-17}
+    \multirow{9}{*}{\rt{CNN}}
+    & Anger& 64.9 (1.0) & 66.6 (3.5) & 65.6 (1.4) \\
+    & Anticipation& 52.3 (0.3) & 47.3 (3.6) & 49.6 (1.9) \\
+    & Disgust& 42.3 (1.6) & 41.4 (5.9) & 41.5 (2.6) \\
+    & Fear& 28.0 (2.4) & 26.5 (3.9) & 27.0 (1.9) \\
+    & Joy& 48.5 (3.9) & 49.0 (4.3) & 48.4 (1.0) \\
+    & Sadness& 38.2 (2.2) & 50.3 (10.8) & 42.5 (3.6) \\
+    & Surprise& 18.3 (3.3) & 9.2 (2.4) & 12.2 (2.8) \\
+    & Trust& 49.4 (5.4) & 31.4 (8.9) & 37.3 (4.6) \\
+    \cmidrule(r){2-2}\cmidrule(rl){3-5}\cmidrule(rl){6-8}\cmidrule(rl){9-11}\cmidrule(rl){12-14}\cmidrule(rl){15-17}
+    & Micro-Avg.& 47.6 (1.5) & 45.8 (4.0) & 46.5 (1.4) \\
+
+    \cmidrule(r){2-2}\cmidrule(rl){3-5}\cmidrule(rl){6-8}\cmidrule(rl){9-11}\cmidrule(rl){12-14}\cmidrule(rl){15-17}
+    \bottomrule
+  \end{tabular}
+  \caption{Results of non-linear models for labels of different
+    thresholds. We report the mean precision, recall and f1 for each emotion over 5 runs (standard deviations are included in parenthesis).}
+  \label{tab:resultsdeepthresholds}
+\end{table*}
+                   

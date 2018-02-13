@@ -101,6 +101,24 @@ Sentiment Strength Dataset
 									(pos:  1 (not very positive) :  5 (very positive))
 
 
+@article{Thelwall2012,
+ author = {Thelwall, Mike and Buckley, Kevan and Paltoglou, Georgios},
+ title = {Sentiment Strength Detection for the Social Web},
+ journal = {J. Am. Soc. Inf. Sci. Technol.},
+ issue_date = {January 2012},
+ volume = {63},
+ number = {1},
+ month = jan,
+ year = {2012},
+ issn = {1532-2882},
+ pages = {163--173},
+ numpages = {11},
+ url = {http://dx.doi.org/10.1002/asi.21662},
+ doi = {10.1002/asi.21662},
+ acmid = {2336261},
+ publisher = {John Wiley \& Sons, Inc.},
+ address = {New York, NY, USA},
+} 
 
 Dialogue Earth Twitter Corpora
 =====================================================================================

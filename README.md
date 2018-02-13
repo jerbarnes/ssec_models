@@ -5,12 +5,13 @@ Runs a series of models on the dataset
 Please cite the original paper when using the data.
 
 ### Requirements
-Code is written in Python (3.5) and requires Keras (1).
+Code is written in Python (3.5), requires Keras (1) [https://keras.io] and tabulate [https://pypi.python.org/pypi/tabulate].
 
 
 
-### Example output
-
+### How to use code
+run ./run.sh from the command line
+This runs the experiments and produces the latex code for the table containing the neural models, which is saved as /figs/large_table.txt
 
 
 ### Hyperparameters

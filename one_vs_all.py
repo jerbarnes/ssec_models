@@ -1,5 +1,6 @@
 from keras.models import Sequential, Model
 from keras.layers import LSTM, Dropout, Dense, Embedding, Bidirectional, Convolution1D, MaxPooling1D, Flatten, Merge, Input
+from keras.regularizers import l2
 from keras.preprocessing.sequence import pad_sequences
 import sys
 import tabulate

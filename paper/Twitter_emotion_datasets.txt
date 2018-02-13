@@ -50,7 +50,7 @@ Not reliable and often has discrepencies between tweet sentiment and entity sent
 Health Care Reform Dataset
 ===============================================================================
 
-@InProceedings{speriosu-EtAl:2011:UNSUP,
+@InProceedings{Speriosu2011,
   author    = {Speriosu, Michael  and  Sudan, Nikita  and  Upadhyay, Sid  and  Baldridge, Jason},
   title     = {Twitter Polarity Classification with Label Propagation over Lexical Links and the Follower Graph},
   booktitle = {Proceedings of the First workshop on Unsupervised Learning in NLP},
